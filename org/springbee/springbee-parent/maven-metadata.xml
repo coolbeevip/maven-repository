@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metadata>
   <groupId>org.springbee</groupId>
-  <artifactId>buildtools</artifactId>
+  <artifactId>springbee-parent</artifactId>
   <versioning>
     <versions>
       <version>0.0.1-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20200605154612</lastUpdated>
+    <lastUpdated>20200605154850</lastUpdated>
   </versioning>
 </metadata>
