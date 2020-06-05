@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metadata modelVersion="1.1.0">
   <groupId>org.springbee</groupId>
-  <artifactId>buildtools</artifactId>
+  <artifactId>springbee-common</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <versioning>
     <snapshot>
-      <timestamp>20200605.155059</timestamp>
+      <timestamp>20200605.155229</timestamp>
       <buildNumber>3</buildNumber>
     </snapshot>
-    <lastUpdated>20200605155059</lastUpdated>
+    <lastUpdated>20200605155229</lastUpdated>
     <snapshotVersions>
       <snapshotVersion>
         <extension>jar</extension>
-        <value>0.0.1-20200605.155059-3</value>
-        <updated>20200605155059</updated>
+        <value>0.0.1-20200605.155229-3</value>
+        <updated>20200605155229</updated>
       </snapshotVersion>
       <snapshotVersion>
         <extension>pom</extension>
-        <value>0.0.1-20200605.155059-3</value>
-        <updated>20200605155059</updated>
+        <value>0.0.1-20200605.155229-3</value>
+        <updated>20200605155229</updated>
       </snapshotVersion>
     </snapshotVersions>
   </versioning>
