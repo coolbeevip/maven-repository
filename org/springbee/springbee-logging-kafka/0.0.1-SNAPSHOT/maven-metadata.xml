@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metadata modelVersion="1.1.0">
   <groupId>org.springbee</groupId>
-  <artifactId>springbee-logging</artifactId>
+  <artifactId>springbee-logging-kafka</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <versioning>
     <snapshot>
-      <timestamp>20200605.155726</timestamp>
+      <timestamp>20200605.155851</timestamp>
       <buildNumber>2</buildNumber>
     </snapshot>
-    <lastUpdated>20200605155726</lastUpdated>
+    <lastUpdated>20200605155851</lastUpdated>
     <snapshotVersions>
       <snapshotVersion>
         <extension>jar</extension>
-        <value>0.0.1-20200605.155726-2</value>
-        <updated>20200605155726</updated>
+        <value>0.0.1-20200605.155851-2</value>
+        <updated>20200605155851</updated>
       </snapshotVersion>
       <snapshotVersion>
         <extension>pom</extension>
-        <value>0.0.1-20200605.155726-2</value>
-        <updated>20200605155726</updated>
+        <value>0.0.1-20200605.155851-2</value>
+        <updated>20200605155851</updated>
       </snapshotVersion>
     </snapshotVersions>
   </versioning>

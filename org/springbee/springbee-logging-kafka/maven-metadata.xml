@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metadata>
   <groupId>org.springbee</groupId>
-  <artifactId>springbee-logging</artifactId>
+  <artifactId>springbee-logging-kafka</artifactId>
   <versioning>
     <versions>
       <version>0.0.1-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20200605155726</lastUpdated>
+    <lastUpdated>20200605155851</lastUpdated>
   </versioning>
 </metadata>
