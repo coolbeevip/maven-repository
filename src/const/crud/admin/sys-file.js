@@ -8,7 +8,7 @@ export const tableOption = {
   viewBtn:false,
   searchMenuSpan: 6,
   editBtn:false,
-  submitBtn: false,
+  saveBtn: false,
   addBtn: true,
   column: [
 	  {

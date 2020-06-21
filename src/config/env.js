@@ -3,7 +3,7 @@
 const env = process.env
 const baseUrl = ''
 // 图表库为avue和nc2套地址
-const iconfontVersion = ['567566_qo5lxgtishg', '667895_v7uduh4zui']
+const iconfontVersion = ['667895_v7uduh4zui','1638883_38cl38o35i2']
 const iconfontUrl = '//at.alicdn.com/t/font_$key.css'
 const codeUrl = `${window.location.origin}/code`
 const actUrl = `${window.location.origin}/act/modeler.html?modelId=`

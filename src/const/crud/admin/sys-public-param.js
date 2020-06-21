@@ -1,5 +1,26 @@
 import { rule } from "@/util/validateRules";
+
+import {getObj} from '@/api/admin/sys-public-param'
+
+
+var validateParam = (rule, value, callback) => {
+  getObj(value).then(response => {
+    if (window.boxType === 'edit') callback()
+    const result = response.data.data
+    if (result !== null) {
+      callback(new Error('参数键已经存在'))
+    } else {
+      callback()
+    }
+  })
+}
+
 export const tableOption = {
+  border: true,
+  index: true,
+  indexLabel: '序号',
+  stripe: true,
+  menuAlign: 'center',
   searchMenuSpan: 6,
   column: [
     {
@@ -17,7 +38,8 @@ export const tableOption = {
       prop: 'publicKey',
       rules: [
         { required: true, message: '请输入键', trigger: 'blur' },
-        { validator: rule.validatorKey, trigger: 'blur'}
+        { validator: rule.validatorKey, trigger: 'blur'},
+        { validator: validateParam, trigger: 'blur'},
       ]
 
     },
@@ -50,7 +72,10 @@ export const tableOption = {
       prop: 'status',
       width: 80,
       type: 'select',
-      dicUrl: '/admin/dict/type/status_type'
+      dicUrl: '/admin/dict/type/status_type',
+      rules: [
+        { required: true, message: '请输入值', trigger: 'blur' }
+      ]
     },
     {
       label: '类型',

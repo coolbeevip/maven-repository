@@ -74,7 +74,7 @@ export default {
     },
     handleDel: function(row, index) {
       var _this = this
-      this.$confirm('是否强制' + row.username + '下线?', '提示', {
+      this.$confirm('是否强制' + row.user_info.username + '下线?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'

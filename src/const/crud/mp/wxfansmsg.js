@@ -1,92 +1,119 @@
 export const tableOption = {
+  dialogDrag: true,
   border: true,
-  index: true,
-  indexLabel: '序号',
   stripe: true,
   menuAlign: 'center',
-  viewBtn: true,
-  addBtn: false,
-  editBtn: false,
-  searchMenuSpan: 6,
   align: 'center',
+  menuType: 'text',
+  editBtn: false,
+  delBtn: false,
+  addBtn: false,
+  viewBtn: false,
+  searchBtn: true,
+  searchMenuSpan: 6,
+  defaultSort: {
+    prop: 'createTime',
+    order: 'descending'
+  },
   column: [
     {
-      label: '主键',
-      prop: 'id',
-      hide: false
-    },
-    {
       label: '公众号',
-      prop: 'wxAccountName'
-    },
-    {
-      label: '用户标识',
-      prop: 'openid',
-      overHidden: true
-    },
-    {
-      label: '昵称',
-      prop: 'nickname'
+      prop: 'appId',
+      dicUrl: '/mp/wxaccount/list',
+      props: {
+        label: 'name',
+        value: 'appid'
+      },
+      hide: true,
+      type:'select',
+      search: true,
+      width: 100
     },
     {
       label: '消息类型',
-      prop: 'msgType'
-    },
-    {
-      label: '内容',
-      prop: 'content'
-    },
-    {
-      label: '已回复',
-      prop: 'isRes',
+      prop: 'repType',
       type: 'select',
-      dicUrl: '/admin/dict/type/response_type',
-      search: true
+      dicData: [{
+        value: 'text',
+        label: '文本'
+      }, {
+        value: 'image',
+        label: '图片'
+      }, {
+        value: 'voice',
+        label: '语音'
+      }, {
+        value: 'video',
+        label: '视频'
+      }, {
+        value: 'shortvideo',
+        label: '小视频'
+      }, {
+        value: 'location',
+        label: '地理位置'
+      }, {
+        value: 'link',
+        label: '链接消息'
+      }, {
+        value: 'event',
+        label: '事件推送'
+      }],
+      search: true,
+      sortable: true,
+      width: 120
     },
     {
-      label: '创建时间',
-      prop: 'createTime'
+      label: '用户',
+      prop: 'nickName',
+      overHidden: false,
+      search: true,
+      width: 100
+    },
+    {
+      label: '公众号名称',
+      prop: 'appName',
+      hide: true,
+    },
+    {
+      label: '公众号名称',
+      prop: 'appLogo',
+      hide: true,
     },
     {
       label: '头像地址',
       prop: 'headimgUrl',
       type: 'upload',
-      imgWidth: 60,
+      imgWidth: 40,
       imgFullscreen: true,
       editDisplay: false,
       addDisplay: false,
       listType: 'picture-img'
-    }
-  ]
-}
-
-export const tableResOption = {
-  border: true,
-  index: true,
-  indexLabel: '序号',
-  stripe: true,
-  viewBtn: true,
-  editBtn: false,
-  delBtn: true,
-  menuAlign: 'center',
-  align: 'center',
-  column: [
-    {
-      label: '回复人',
-      prop: 'userName',
-      addDisplay: false
-    },
-    {
-      label: '回复内容',
-      prop: 'resContent',
-      type: 'textarea',
-      span: 24,
-      minRows: 5
-    },
-    {
+    }, {
+      label: '内容',
+      prop: 'repContent',
+      overHidden: true,
+      align: 'left',
+      slot: true
+    }, {
       label: '时间',
+      type: 'date',
       prop: 'createTime',
-      addDisplay: false
+      width: 200
+    },
+    {
+      label: '是否已读',
+      prop: 'readFlag',
+      type: 'select',
+      dicData: [
+        {
+          value: '1',
+          label: '是'
+        }, {
+          value: '0',
+          label: '否'
+        }
+      ],
+      slot: true
     }
   ]
 }

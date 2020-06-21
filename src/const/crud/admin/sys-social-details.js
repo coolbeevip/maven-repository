@@ -6,7 +6,6 @@ var validateSocial = (rule, value, callback) => {
       return callback()
     }
     const result = response.data.data
-    debugger
     if (result.length !== 0) {
       callback(new Error('此类型密钥已存在'))
     } else {

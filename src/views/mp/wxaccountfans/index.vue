@@ -4,11 +4,6 @@
       <el-row :gutter="20">
         <el-col :span="4">
           <div class="grid-content bg-purple">
-            <el-input v-model="q.nickname" placeholder="请输入昵称"/>
-          </div>
-        </el-col>
-        <el-col :span="4">
-          <div class="grid-content bg-purple">
             <el-select v-model="q.account" placeholder="请选择公众号">
               <el-option
                 v-for="item in wxAccountList"
@@ -18,10 +13,16 @@
             </el-select>
           </div>
         </el-col>
+        <el-col :span="4">
+          <div class="grid-content bg-purple">
+            <el-input v-model="q.nickname" placeholder="请输入昵称"/>
+          </div>
+        </el-col>
+
         <el-col :span="12">
           <div class="grid-content bg-purple">
             <el-button type="primary" icon="el-icon-search" @click="search">搜索</el-button>
-            <el-button type="primary" icon="el-icon-sort" @click="asyncFans">同步</el-button>
+            <el-button v-if="permissions.mp_wxaccountfans_sync" type="primary" icon="el-icon-sort" @click="asyncFans">同步</el-button>
           </div>
         </el-col>
       </el-row>

@@ -1,7 +1,10 @@
 <template>
   <avue-crud
-    :data="logsList"
-    :option="option">
+    :data="list"
+    :option="option"
+    :page="page"
+    @current-change="currentChange"
+    @size-change="sizeChange">
     <template slot="menuLeft">
       <el-button
         type="primary"
@@ -38,17 +41,46 @@ export default {
   name: 'ErrLogs',
   data() {
     return {
-      option: option
+      // 默认不分页，若记录数超过，则分页
+      onePageMaxSize: 10,
+      page: {
+        currentPage: 1,
+        pageSize: 10,
+        total: 0
+      },
+      option: option,
+      list: []
     }
   },
   created() {
 
   },
-  mounted() { },
+  mounted() {
+    this.getList();
+  },
   computed: {
-    ...mapGetters(['logsList'])
+    ...mapGetters(['logsList', 'logsLen'])
   },
   methods: {
+    sizeChange(pageSize) {
+      this.page.pageSize = pageSize;
+      this.getList();
+    },
+    currentChange(currentPage) {
+      this.page.currentPage = currentPage;
+      this.getList();
+    },
+    getList() {
+      const total = this.logsLen;
+      if (total <= this.onePageMaxSize) {
+        this.list = this.logsList;
+      } else {
+        const currentPage = this.page.currentPage;
+        const pageSize = this.page.pageSize;
+        this.list = this.logsList.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+        this.page.total = total;
+      }
+    },
     send() {
       this.$confirm('确定上传本地日志到服务器?', '提示', {
         confirmButtonText: '确定',
@@ -69,6 +101,8 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
+        this.page.currentPage = 1;
+        this.page.total = 0;
         this.$store.commit('CLEAR_LOGS')
         this.$parent.$parent.box = false
         this.$message.success( '清空成功!')
@@ -86,6 +120,6 @@ export default {
   display: block;
   font-family: monospace;
   white-space: pre;
-  margin: 1em 0px;
+  margin: 0 1em;
 }
 </style>

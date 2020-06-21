@@ -16,9 +16,9 @@ export function addObj(obj) {
   })
 }
 
-export function getObj(id) {
+export function getObj(key) {
   return request({
-    url: '/admin/param/' + id,
+    url: '/admin/param/publicValue/' + key,
     method: 'get'
   })
 }

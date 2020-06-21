@@ -1,7 +1,6 @@
 export default {
   menu: false,
   addBtn: false,
-  page: false,
   border: true,
   expand: true,
   refreshBtn: false,

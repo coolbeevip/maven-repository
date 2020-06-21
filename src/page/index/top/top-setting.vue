@@ -9,7 +9,7 @@
       class="setting__content">
       <div class="setting__header">版权信息</div>
       <div class="setting__body setting__about">
-        <p>Version：NC 3.8.0</p>
+        <p>Version：NC 3.9.0</p>
         <p>Copyright: NC4Cloud ©2018-2025</p>
       </div>
       <div class="setting__header">设置

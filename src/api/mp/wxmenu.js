@@ -7,24 +7,17 @@ export function getObj(id) {
   })
 }
 
-export function putObj(appId) {
-  return request({
-    url: '/mp/wxmenu/' + appId,
-    method: 'put'
-  })
-}
-
-export function delObj(appId) {
-  return request({
-    url: '/mp/wxmenu/' + appId,
-    method: 'delete'
-  })
-}
-
-export function addObj(appId, obj) {
+export function saveObj(appId,data) {
   return request({
     url: '/mp/wxmenu/' + appId,
     method: 'post',
-    data: obj
+    data: data
+  })
+}
+
+export function publishObj(id) {
+  return request({
+    url: '/mp/wxmenu/' + id,
+    method: 'put'
   })
 }

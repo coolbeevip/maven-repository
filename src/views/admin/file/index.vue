@@ -53,10 +53,6 @@ export default {
       tableOption: tableOption
     }
   },
-  created() {
-  },
-  mounted: function() {
-  },
   computed: {
     ...mapGetters(['permissions']),
     permissionList() {

@@ -34,8 +34,6 @@ export const tableOption = {
 export const formOption = {
   submitBtn: false,
   emptyBtn: false,
-  row: true,
-  span: 12,
   column: [
     {
       label: '任务编号',
@@ -72,19 +70,26 @@ export const formOption = {
       disabled: true
     },
     {
+      disabled: true,
+      hide: true,
       label: '事由',
       prop: 'content',
-      type: 'textarea',
-      minRows: 2,
+      type: 'ueditor',
+      component: 'avueUeditor',
       row: true,
       span: 24,
-      disabled: true
+      options: {
+        action: "/admin/sys-file/upload",
+        props: {
+          res: "data",
+          url: "url"
+        },
+      }
     },
     {
       label: '批注',
       prop: 'comment',
       type: 'textarea',
-      minRows: 2,
       row: true,
       span: 24,
       rules: [{

@@ -41,6 +41,11 @@
           slot="menu">
           <el-button
             type="text"
+            icon="el-icon-view"
+            @click="handleTable(scope.row,scope.index)">字段
+          </el-button>
+          <el-button
+            type="text"
             icon="el-icon-check"
             @click="handleDown(scope.row,scope.index)">生成
           </el-button>
@@ -61,8 +66,22 @@
           <avue-form
             ref="formData"
             :option="formOption"
-            v-model="formData"
-            @submit="gen"/>
+            v-model="formData">
+            <template slot-scope="scope" slot="menuForm">
+              <el-button type="primary"
+                         icon="el-icon-view"
+                         plain
+                         @click="handleView()"
+              >预览
+              </el-button>
+              <el-button type="info"
+                         icon="el-icon-check"
+                         plain
+                         @click="gen()"
+              >下载
+              </el-button>
+            </template>
+          </avue-form>
         </div>
       </el-dialog>
       <el-dialog
@@ -80,15 +99,26 @@
       </el-dialog>
 
     </basic-container>
+    <!-- 预览界面 -->
+    <el-dialog :title="preview.title" :visible.sync="preview.open" width="80%" top="5vh" append-to-body>
+      <Preview :queryData="this.formData" v-if="preview.open"/>
+    </el-dialog>
+    <!--表字段-->
+    <el-dialog :title="table.title" :visible.sync="table.open" width="80%" top="5vh" append-to-body>
+      <Table :queryData="this.formData" v-if="table.open"/>
+    </el-dialog>
   </div>
 </template>
 
 <script>
   import {fetchList, fetchSelectDsList, handleDown} from '@/api/gen/gen'
   import {formBatchOption, formOption, tableOption} from '@/const/crud/gen/gen'
+  import Preview from './preview'
+  import Table from './table'
 
   export default {
     name: 'CodeGenerator',
+    components: {Preview, Table},
     data() {
       return {
         q: {},
@@ -106,7 +136,16 @@
         tableLoading: false,
         tableOption: tableOption,
         formOption: formOption,
-        formBatchOption: formBatchOption
+        formBatchOption: formBatchOption,
+        // 预览参数
+        preview: {
+          open: false,
+          title: "代码预览"
+        },
+        table: {
+          open: false,
+          title: "字段预览"
+        }
       }
     },
     created() {
@@ -124,29 +163,37 @@
           this.tableLoading = false
         })
       },
+      handleView: function () {
+        this.formData.dsName = this.q.dsName
+        this.preview.open = true
+        this.table.open = false
+      },
       handleDesign: function (row) {
         this.$router.push({path: '/gen/design', query: {tableName: row.tableName, dsName: this.q.dsName}})
+      },
+      handleTable: function (row) {
+        this.formData.tableName = row.tableName
+        this.formData.dsName = this.q.dsName
+        this.table.open = true
+        this.preview.open = false
       },
       handleDown: function (row) {
         this.formData.tableName = row.tableName
         this.box = true
       },
-      sizeChange(pageSize){
+      sizeChange(pageSize) {
         this.page.pageSize = pageSize
       },
-      currentChange(current){
+      currentChange(current) {
         this.page.currentPage = current
       },
       refreshChange() {
         this.getList(this.page)
       },
-      gen(form,done) {
+      gen() {
         this.formData.dsName = this.q.dsName
         handleDown(this.formData).then(() => {
-          done()
           this.box = false
-        }).catch(()=>{
-            done()
         })
       },
       getdataSourceList() {
@@ -169,12 +216,12 @@
         this.formBatchData.tableName = tableName.join('-')
         this.boxBatch = true
       },
-      batchGen(form,done) {
+      batchGen(form, done) {
         this.formBatchData.dsName = this.q.dsName
         handleDown(this.formBatchData).then(() => {
           done()
           this.boxBatch = false
-        }).catch(()=>{
+        }).catch(() => {
           done()
         })
       }

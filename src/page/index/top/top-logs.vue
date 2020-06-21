@@ -3,7 +3,7 @@
     <el-badge
       :value="logsFlag?'':logsLen"
       :max="99">
-      <i class="icon-bug"/>
+      <i class="icon-bug1"/>
     </el-badge>
     <el-dialog
       :visible.sync="box"

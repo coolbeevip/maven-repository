@@ -20,6 +20,11 @@ export const tableOption = {
       prop: 'wxAccountName'
     },
     {
+      label: '公众号',
+      prop: 'wxAccountAppid',
+      hide: true
+    },
+    {
       label: '昵称',
       prop: 'nickname',
       overHidden: true

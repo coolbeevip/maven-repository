@@ -59,7 +59,7 @@ export const tableOption = {
       label: '备注',
       prop: 'content',
       type: 'ueditor',
-      component: 'ueditor',
+      component: 'avueUeditor',
       span: 24,
       options: {
         action: "/admin/sys-file/upload",

@@ -119,7 +119,6 @@ export default {
       formEdit: true,
       formAdd: true,
       formStatus: '',
-      showElement: false,
       typeOptions: ['0', '1'],
       methodOptions: ['GET', 'POST', 'PUT', 'DELETE'],
       listQuery: {
@@ -188,7 +187,6 @@ export default {
         this.form = response.data.data
       })
       this.currentId = data.id
-      this.showElement = true
     },
     handlerEdit() {
       if (this.form.deptId) {
@@ -211,12 +209,7 @@ export default {
           this.getList()
           this.resetForm()
           this.onCancel()
-          this.$notify({
-            title: '成功',
-            message: '删除成功',
-            type: 'success',
-            duration: 2000
-          })
+          this.$notify.success('删除成功')
         })
       })
     },
@@ -225,12 +218,8 @@ export default {
         if (!valid) return
         putObj(this.form).then(() => {
           this.getList()
-          this.$notify({
-            title: '成功',
-            message: '更新成功',
-            type: 'success',
-            duration: 2000
-          })
+          this.onCancel()
+          this.$notify.success('更新成功')
         })
       })
     },
@@ -239,12 +228,8 @@ export default {
         if (!valid) return
         addObj(this.form).then(() => {
           this.getList()
-          this.$notify({
-            title: '成功',
-            message: '创建成功',
-            type: 'success',
-            duration: 2000
-          })
+          this.onCancel()
+          this.$notify.success('创建成功')
         })
       })
     },

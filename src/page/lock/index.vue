@@ -10,7 +10,7 @@
                   v-model="passwd"
                   @keyup.enter.native="handleLogin">
           <el-button slot="append"
-                     icon="icon-bofangqi-suoping"
+                     icon="icon-jiesuo"
                      @click="handleLogin"></el-button>
           <el-button slot="append"
                      icon="icon-tuichu"

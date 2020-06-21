@@ -4,7 +4,7 @@
       <div class="login-logo">
         <img src="/img/logo.png" alt="">
       </div>
-      <p class="login-tip">{{ website.title}} v 3.8</p>
+      <p class="login-tip">{{ website.title}} v 3.9</p>
       <div class="login-border">
         <div class="login-main">
           <h4 class="login-title">

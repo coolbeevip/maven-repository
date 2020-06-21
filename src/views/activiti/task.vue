@@ -64,10 +64,14 @@
 <script>
   import {doTask, fetchComment, fetchDetail, fetchList} from '@/api/activiti/task'
   import {formOption, tableOption, taskOption} from '@/const/crud/activiti/task'
+  import AvueUeditor from 'avue-plugin-ueditor';
   import {mapGetters} from 'vuex'
 
   export default {
     name: 'Task',
+    comments: {
+      AvueUeditor
+    },
     data() {
       return {
         actPicUrl: '',

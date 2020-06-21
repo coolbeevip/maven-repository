@@ -15,25 +15,50 @@
         @current-change="currentChange"
         @row-save="handleSave"
         @row-del="rowDel">
-        <template
-          slot-scope="scope"
-          slot="menu">
-          <el-button
-            v-if="permissionList.addBtn"
-            type="text"
-            icon="el-icon-check"
-            @click="reply(scope.row,scope.index)">回复
-          </el-button>
+        <template slot="appName" slot-scope="scope" >
+          <el-tag type="success" size="mini">{{scope.row.appName}}</el-tag>
+        </template>
+        <template slot="nickName" slot-scope="scope" >
+          <el-badge :value="scope.row.countMsg" class="count-msg">
+            <img class="head-img" :src="scope.row.headimgUrl"/>
+          </el-badge>
+        </template>
+        <template slot="readFlag" slot-scope="scope" >
+          <el-tag :type="scope.row.readFlag == '1' ? 'success' : 'danger'" size="mini">{{scope.row.$readFlag}}</el-tag>
+        </template>
+        <template slot="repContent" slot-scope="scope" >
+          <div class="nick-name">{{scope.row.nickName}}</div>
+          <div v-if="scope.row.repType == 'event' && scope.row.repEvent == 'subscribe'"><el-tag type="success" size="mini">关注</el-tag></div>
+          <div v-if="scope.row.repType == 'event' && scope.row.repEvent == 'unsubscribe'"><el-tag type="danger" size="mini">取消关注</el-tag></div>
+          <div v-if="scope.row.repType == 'event' && scope.row.repEvent == 'CLICK'"><el-tag size="mini">点击菜单</el-tag>：【{{scope.row.repName}}】</div>
+          <div v-if="scope.row.repType == 'event' && scope.row.repEvent == 'VIEW'"><el-tag size="mini">点击菜单链接</el-tag>：【{{scope.row.repUrl}}】</div>
+          <div v-if="scope.row.repType == 'event' && scope.row.repEvent == 'scancode_waitmsg'"><el-tag size="mini">扫码结果：</el-tag>：【{{scope.row.repContent}}】</div>
+          <div v-if="scope.row.repType == 'text'">{{scope.row.repContent}}</div>
+          <div v-if="scope.row.repType == 'image'">
+            <a target="_blank" :href="scope.row.repUrl"><img :src="scope.row.repUrl" style="width: 100px"></a>
+          </div>
+          <div v-if="scope.row.repType == 'voice'">
+            <WxVoicePlayer :objData="scope.row"></WxVoicePlayer>
+          </div>
+          <div v-if="scope.row.repType == 'video'">
+            <WxVideoPlayer :objData="scope.row" style="margin-top: 40px"></WxVideoPlayer>
+          </div>
+          <div v-if="scope.row.repType == 'shortvideo'">
+            <WxVideoPlayer :objData="scope.row" style="margin-top: 40px"></WxVideoPlayer>
+          </div>
+          <div v-if="scope.row.repType == 'link'"><el-tag size="mini">链接</el-tag>：<a :href="scope.row.repUrl" target="_blank">{{scope.row.repName}}</a></div>
+        </template>
+        <template slot-scope="scope"
+                  slot="menu">
+          <el-button type="text"
+                     icon="el-icon-chat-line-round"
+                     size="small"
+                     plain
+                     @click="wxMsgDo(scope.row,scope.index)">消息</el-button>
         </template>
       </avue-crud>
-      <el-dialog :visible.sync="dialogFormVisible" title="回复消息">
-        <avue-crud
-          ref="crudLog"
-          :page="pageRes"
-          :data="tableResData"
-          :option="tableResOption"
-          @row-save="handleResSave"
-          @row-del="rowResDel"/>
+      <el-dialog title="用户消息" :visible.sync="dialogMsgVisible" width="40%">
+        <WxMsg :wxUserId="wxUserId" :appId="appId" v-if="dialogMsgVisible"></WxMsg>
       </el-dialog>
     </basic-container>
   </div>
@@ -41,17 +66,26 @@
 
 <script>
 import { addObj, addResObj, delObj, delResObj, fetchList, fetchResList } from '@/api/mp/wxfansmsg'
-import { tableOption, tableResOption } from '@/const/crud/mp/wxfansmsg'
+import { tableOption } from '@/const/crud/mp/wxfansmsg'
+import WxMsg from '@/components/wechat/WxMsg'
+import WxVideoPlayer from '@/components/wechat/WxVideoPlayer'
+import WxVoicePlayer from '@/components/wechat/WxVoicePlayer'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'Wxfansmsg',
+  components: {
+    WxMsg,
+    WxVideoPlayer,
+    WxVoicePlayer
+  },
   data() {
     return {
+      appId: undefined,
+      wxUserId: undefined,
       searchForm: {},
-      dialogFormVisible: false,
+      dialogMsgVisible: false,
       tableData: [],
-      tableResData: [],
       page: {
         total: 0, // 总页数
         currentPage: 1, // 当前页数
@@ -64,7 +98,6 @@ export default {
       },
       tableLoading: false,
       tableOption: tableOption,
-      tableResOption: tableResOption,
       msgId: undefined
     }
   },
@@ -79,11 +112,17 @@ export default {
     }
   },
   methods: {
+    wxMsgDo(row){
+      this.wxUserId = row.wxUserId
+      this.appId = row.appId
+      this.dialogMsgVisible = true
+    },
     getList(page, params) {
       this.tableLoading = true
       fetchList(Object.assign({
         current: page.currentPage,
-        size: page.pageSize
+        size: page.pageSize,
+        descs: 'create_time'
       }, params, this.searchForm)).then(response => {
         this.tableData = response.data.data.records
         this.page.total = response.data.data.total
@@ -148,18 +187,6 @@ export default {
       }).catch(function() {
       })
     },
-    handleResSave: function(row, done) {
-      row.fansMsgId = this.msgId
-      addResObj(row).then(() => {
-        this.$message({
-          showClose: true,
-          message: '发送成功',
-          type: 'success'
-        })
-        done()
-        this.getResList(this.pageRes, { fansMsgId: this.msgId })
-      })
-    },
     sizeChange(pageSize){
       this.page.pageSize = pageSize
     },
@@ -174,13 +201,6 @@ export default {
       this.page.currentPage = 1
       this.getList(this.page, form)
       done()
-    },
-    reply: function(row) {
-      this.msgId = row.id
-      this.dialogFormVisible = true
-      this.getResList(this.pageRes, { fansMsgId: this.msgId })
-      // 同时刷新 客户消息列表
-      this.getList(this.page)
     }
   }
 }

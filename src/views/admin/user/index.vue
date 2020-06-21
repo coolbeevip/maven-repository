@@ -11,7 +11,14 @@
           <avue-tree
             :option="treeOption"
             :data="treeData"
-            @node-click="nodeClick"/>
+            @node-click="nodeClick">
+            <span class="el-tree-node__label" slot-scope="{ node, data }">
+              <el-tooltip class="item" effect="dark" content="无数据权限" placement="right-start" v-if="data.isLock">
+                <span>{{node.label}}  <i class="el-icon-lock"></i></span>
+              </el-tooltip>
+              <span v-if="!data.isLock">{{node.label}}</span>
+            </span>
+          </avue-tree>
         </el-col>
         <el-col
           :xs="24"
@@ -40,7 +47,7 @@
                 type="primary"
                 size="small"
                 icon="el-icon-edit"
-                @click="handleCreate">添加
+                @click="$refs.crud.rowAdd()">添加
               </el-button>
             </template>
             <template
@@ -88,12 +95,11 @@
             <template
               slot="deptIdForm"
               slot-scope="scope">
-              <avue-input
+              <avue-input-tree
                 v-model="form.deptId"
                 :node-click="getNodeData"
                 :dic="treeDeptData"
                 :props="defaultProps"
-                type="tree"
                 placeholder="请选择所属部门"/>
             </template>
             <template
@@ -200,12 +206,7 @@
           this.rolesOptions = response.data.data
         })
       },
-      handleDept() {
-        fetchTree().then(response => {
-          this.treeDeptData = response.data.data
-        })
-      },
-      searchChange(param,done) {
+      searchChange(param, done) {
         this.searchForm = param
         this.page.currentPage = 1
         this.getList(this.page, param)
@@ -220,27 +221,28 @@
       refreshChange() {
         this.getList(this.page)
       },
-      handleCreate() {
-        this.$refs.crud.rowAdd()
-      },
       handleOpenBefore(show, type) {
         window.boxType = type
-        this.handleDept()
+        // 查询部门树
+        fetchTree().then(response => {
+          this.treeDeptData = response.data.data
+        })
+        // 查询角色列表
+        deptRoleList().then(response => {
+          this.rolesOptions = response.data.data
+        })
+
         if (['edit', 'views'].includes(type)) {
           this.role = []
-          for (var i = 0; i < this.form.roleList.length; i++) {
+          for (let i = 0; i < this.form.roleList.length; i++) {
             this.role[i] = this.form.roleList[i].roleId
           }
-          deptRoleList().then(response => {
-            this.rolesOptions = response.data.data
-          })
         } else if (type === 'add') {
           this.role = []
         }
         show()
       },
       handleUpdate(row, index) {
-        console.log(row)
         this.$refs.crud.rowEdit(row, index)
         this.form.password = undefined
       },
@@ -280,8 +282,8 @@
               this.list.splice(index, 1)
               this.$notify.success('删除成功')
             }).catch(() => {
-              this.$notify.error('删除失败')
-            })
+            this.$notify.error('删除失败')
+          })
         })
       }
     }

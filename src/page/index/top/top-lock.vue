@@ -1,6 +1,6 @@
 <template>
   <span>
-    <i  class="icon-bofangqi-suoping"
+    <i  class="icon-suoping"
        @click="handleLock"></i>
     <el-dialog title="设置锁屏密码"
                :visible.sync="box"

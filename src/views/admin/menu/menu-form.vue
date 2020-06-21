@@ -1,6 +1,6 @@
 <template>
   <!-- 添加或修改菜单对话框 -->
-  <el-dialog :title="!form.menuId ? '新增' : '修改'"
+  <el-dialog :title="!form.menuId ? '新增': '修改'"
              :visible.sync="visible">
     <el-form ref="dataForm" :model="form" :rules="rules" label-width="80px">
       <el-row>
@@ -80,6 +80,7 @@
         // 图标
         iconList: iconList,
         form: {
+          menuId: undefined,
           name: undefined,
           path: undefined,
           icon: undefined,
@@ -121,6 +122,8 @@
             getObj(id).then(response => {
               this.form = response.data.data
             })
+          } else {
+            this.form.menuId = undefined
           }
         })
       },

@@ -19,11 +19,11 @@
         <el-scrollbar style="height:100%">
           <keep-alive>
             <router-view
-              v-if="$route.meta.$keepAlive"
+              v-if="$route.meta.keepAlive"
               class="avue-view"/>
           </keep-alive>
           <router-view
-            v-if="!$route.meta.$keepAlive"
+            v-if="!$route.meta.keepAlive"
             class="avue-view"/>
         </el-scrollbar>
 

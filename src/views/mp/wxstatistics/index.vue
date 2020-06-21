@@ -2,8 +2,9 @@
   <basic-container>
     <el-row :span="24">
       <el-col :md="4">
-        <el-row>
+        <el-row >
           <el-date-picker
+            class="input_width"
             v-model="beginTime"
             placeholder="选择开始时间"
             @change="check">
@@ -11,6 +12,7 @@
         </el-row>
         <el-row>
           <el-date-picker
+            class="input_width"
             v-model="endTime"
             placeholder="选择结束时间"
             @change="check">
@@ -18,6 +20,7 @@
         </el-row>
         <el-row>
           <avue-tree
+            class="input_width"
             :option="treeOption"
             :data="treeData"
             @node-click="nodeClick"/>
@@ -199,6 +202,10 @@ export default {
     getAccountList() {
       fetchAccountList().then(response => {
         this.treeData = response.data.data
+        // 默认选中第一个
+        if (this.treeData.length > 0) {
+          this.nodeClick(this.treeData[0])
+        }
       })
     },
     check() {
@@ -218,3 +225,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .input_width {
+    width: 80%;
+  }
+</style>

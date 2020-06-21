@@ -53,6 +53,14 @@ export function putObj(obj) {
   })
 }
 
+export function preview(table) {
+  return request({
+    url: '/gen/generator/preview',
+    method: 'get',
+    params: table
+  })
+}
+
 export function handleDown(table) {
   return request({
     url: '/gen/generator/code',
@@ -74,6 +82,13 @@ export function handleDown(table) {
   })
 }
 
+export function getGenTable(query) {
+  return request({
+    url: '/gen/generator/table',
+    params: query,
+    method: 'get'
+  })
+}
 
 export function getForm(tableName, dsName) {
   return request({

@@ -34,30 +34,13 @@
       </el-input>
     </el-form-item>
     <el-form-item prop="code">
-      <el-row :span="24">
-        <el-col :span="16">
-          <el-input
-            :maxlength="code.len"
-            v-model="loginForm.code"
-            size="small"
-            auto-complete="off"
-            placeholder="请输入验证码"
-            @keyup.enter.native="handleLogin">
-            <i
-              slot="prefix"
-              class="icon-yanzhengma"/>
-          </el-input>
-        </el-col>
-        <el-col :span="8">
-          <div class="login-code">
-            <img
-              :src="code.src"
-              class="login-code-img"
-              @click="refreshCode">
-          </div>
-        </el-col>
-      </el-row>
-
+      <Verify
+        @success="verifySuccess"
+        :mode="'pop'"
+        :captchaType="'blockPuzzle'"
+        :imgSize="{ width: '330px', height: '155px' }"
+        ref="verify"
+      />
     </el-form-item>
     <el-form-item>
       <el-button
@@ -71,79 +54,69 @@
 </template>
 
 <script>
-import { randomLenNum } from '@/util/util'
-import { mapGetters } from 'vuex'
-import { getCode } from '@/api/code'
+  import {randomLenNum} from '@/util/util'
+  import {mapGetters} from 'vuex'
+  import {getCode} from '@/api/code'
+  import Verify from "@/components/verifition/Verify";
 
-export default {
-  name: 'Userlogin',
-  data() {
-    return {
-      socialForm: {
-        code: '',
-        state: ''
-      },
-      loginForm: {
-        username: 'admin',
-        password: '123456',
-        code: '',
-        randomStr: ''
-      },
-      checked: false,
-      code: {
-        src: undefined,
-        len: 4
-      },
-      loginRules: {
-        username: [
-          { required: true, message: '请输入用户名', trigger: 'blur' }
-        ],
-        password: [
-          { required: true, message: '请输入密码', trigger: 'blur' },
-          { min: 6, message: '密码长度最少为6位', trigger: 'blur' }
-        ],
-        code: [
-          { required: true, message: '请输入验证码', trigger: 'blur' }
-        ]
-      },
-      passwordType: 'password'
-    }
-  },
-  created() {
-    this.refreshCode()
-  },
-  mounted() {
-  },
-  computed: {
-    ...mapGetters(['tagWel'])
-  },
-  props: [],
-  methods: {
-    refreshCode() {
-      this.loginForm.code = ''
-      this.loginForm.randomStr = randomLenNum(this.code.len, true)
-      getCode({ randomStr: this.loginForm.randomStr }, this.code).catch(() => {
-        this.$store.dispatch('FedLogOut')
-      })
+  export default {
+    name: 'Userlogin',
+    components: {
+      Verify
     },
-    showPassword() {
-      this.passwordType == ''
-        ? (this.passwordType = 'password')
-        : (this.passwordType = '')
+    data() {
+      return {
+        socialForm: {
+          code: '',
+          state: ''
+        },
+        loginForm: {
+          username: 'admin',
+          password: '123456',
+          code: '',
+          randomStr: 'blockPuzzle'
+        },
+        checked: false,
+        code: {
+          src: undefined,
+          len: 4
+        },
+        loginRules: {
+          username: [
+            {required: true, message: '请输入用户名', trigger: 'blur'}
+          ],
+          password: [
+            {required: true, message: '请输入密码', trigger: 'blur'},
+            {min: 6, message: '密码长度最少为6位', trigger: 'blur'}
+          ]
+        },
+        passwordType: 'password'
+      }
     },
-    handleLogin() {
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          this.$store.dispatch('LoginByUsername', this.loginForm).then(() => {
-            this.$router.push({ path: this.tagWel.value })
-          }).catch(() => {
-            this.refreshCode()
-          })
-        }
-      })
+    computed: {
+      ...mapGetters(['tagWel'])
+    },
+    methods: {
+      showPassword() {
+        this.passwordType == ''
+          ? (this.passwordType = 'password')
+          : (this.passwordType = '')
+      },
+      handleLogin() {
+        this.$refs.verify.show()
+      },
+      verifySuccess(params) {
+        this.loginForm.code = params.captchaVerification
+        this.$refs.loginForm.validate(valid => {
+          if (valid) {
+            this.$store.dispatch('LoginByUsername', this.loginForm).then(() => {
+              this.$router.push({path: this.tagWel.value})
+            })
+          }
+        })
+      },
     }
   }
-}
 </script>
 
 <style>

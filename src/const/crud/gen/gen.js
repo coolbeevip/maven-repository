@@ -9,6 +9,8 @@ export const tableOption = {
   addBtn: false,
   editBtn: false,
   delBtn: false,
+  cancelBtn:false,
+  saveBtn:false,
   searchMenuSpan: 6,
   column: [{
     label: '表名称',
@@ -37,7 +39,8 @@ export const tableOption = {
 }
 
 export const formOption = {
-  submitText: '生成',
+  submitBtn:false,
+  emptyBtn:false,
   column: [
     {
       label: '表名称',
@@ -173,3 +176,32 @@ export const tableDsOption = {
     }
   ]
 }
+
+export const tableColumnOption = {
+  rowKey: 'tableName',
+  border: true,
+  index: true,
+  stripe: true,
+  menuAlign: 'center',
+  align: 'center',
+  menu:false,
+  searchMenuSpan: 6,
+  column: [{
+    label: '字段名',
+    prop: 'columnName',
+    align: 'center'
+  }, {
+    label: '注释',
+    prop: 'comments',
+    align: 'center'
+  }, {
+    label: '字段类型',
+    prop: 'columnType',
+    align: 'center'
+  }, {
+    label: 'JAVA类型',
+    prop: 'javaType',
+    align: 'center'
+  }]
+}
+

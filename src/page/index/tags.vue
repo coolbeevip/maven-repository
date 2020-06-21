@@ -1,6 +1,7 @@
 <template>
   <div
     v-if="showTag"
+    @click="contextmenuFlag=false"
     class="avue-tags">
     <!-- tag盒子 -->
     <div

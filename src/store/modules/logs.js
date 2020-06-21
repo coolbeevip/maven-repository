@@ -22,6 +22,7 @@ const logs = {
   mutations: {
     ADD_LOGS: (state, { type, message, stack, info }) => {
       state.logsList.push(Object.assign({
+        id: state.logsList.length,
         url: window.location.href,
         time: dateFormat(new Date())
       }, {
